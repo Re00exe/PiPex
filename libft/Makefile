@@ -54,6 +54,7 @@ SRCS	= ft_strlen.c \
 		  ft_putnbr_fd.c \
 		  ft_countchar.c \
 		  ft_strjoin3.c \
+		  ft_strjoin.c \
 		  ft_strrncmp.c \
 		  ft_matrixdup.c \
 		  ft_matfreex.c

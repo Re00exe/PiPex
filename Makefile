@@ -23,7 +23,7 @@ RM			= rm -rf
 PRINTF		= printf
 
 #src&obj:
-SRC = main.c utils_pie.c
+SRC = main.c utils_pie.c ft_pipe.c
 
 OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
 #make
@@ -33,7 +33,7 @@ all : $(NAME)
 $(NAME) : creat_dir do_libc $(OBJ)
 		@$(CC) $(CFLAGS) $(OBJ) $(LIBFT) $(FT_PRINTF) -o $(NAME)
 		@$(PRINTF) "\r%100s\r$(BLUE)$(NAME) is up to date!$(DEFAULT)\n"
-		@mv $(NAME) $(BIN_DIR)
+
 $(OBJ_DIR)/%.o : $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 	@$(PRINTF) "\rCompiling $(BLUE)$<$(DEFAULT)..."
