@@ -9,7 +9,6 @@ BLUE	= \033[1;34m
 #make file :
 
 SRC_DIR		= code
-BIN_DIR		= bin
 OBJ_DIR		= obj
 SRC_DIR		= code
 NAME		= pipex
@@ -46,7 +45,6 @@ do_libc :
 
 creat_dir :
 	@mkdir -p $(OBJ_DIR)
-	@mkdir -p $(BIN_DIR)
 
 
 clean :

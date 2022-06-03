@@ -6,7 +6,7 @@
 /*   By: midfath <midfath@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 17:45:45 by midfath           #+#    #+#             */
-/*   Updated: 2022/05/30 18:30:02 by midfath          ###   ########.fr       */
+/*   Updated: 2022/06/02 20:16:25 by midfath          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,16 +80,16 @@ void *end_pip(t_pip *p, char ***cmd, int err)
 {
 	if (err)
 		ft_perror(err);
-	if (cmd)
+	else if (cmd)
 		ft_matfreex(cmd);
-	if (p)
+	else if (p)
 	{
 		close(STDIN_FILENO);
 		close(p->input);
 		close(p->output);
 		if (p->cmds)
 			ft_lstclear(&p->cmds, free);
-		if (p)
+		else if (p)
 			ft_matfreex(&p->path);
 		free(p);
 	}
@@ -105,13 +105,10 @@ t_pip	*ft_pip_parma(int ac, char **av, char **envp)
 
 	i = 0;
 	p = NULL;
-	if (access(av[ac - 1], F_OK) == -1 )
-		return(end_pip(p, NULL, NO_FILE));
-	if (access(av[ac - 1], R_OK) == -1)
-		return(end_pip(p, NULL, NO_PERM));
 	while (envp[i] && !ft_strnstr(envp[i], "PATH=", ft_strlen(envp[i])))
 		i++;
 	p = malloc(sizeof(struct s_pip));
+	p->err_f = 0;
 	if (!p)
 		return(end_pip(p, NULL, NO_MEMORY));
 	p->path = ft_split(&envp[i][5], ':');
@@ -119,9 +116,16 @@ t_pip	*ft_pip_parma(int ac, char **av, char **envp)
 		return(end_pip(p, NULL, NO_PATH));
 	p->input = open(av[1], O_RDONLY);
 	if (p->input == -1)
-		return(end_pip(p, NULL, NO_FILE));
+	{
+		perror("ERROR:");
+		p->err_f = 1;
+	}
 	p->output = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0666);
 	if (p->output == -1)
 		return(end_pip(p, NULL, NO_FILE));
+	if (access(av[ac - 1], F_OK) == -1 )
+		return(end_pip(p, NULL, NO_FILE));
+	if (access(av[ac - 1], R_OK) == -1)
+		return(end_pip(p, NULL, NO_PERM));
 	return(p);
 }

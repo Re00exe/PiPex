@@ -6,7 +6,7 @@
 /*   By: midfath <midfath@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 09:37:35 by midfath           #+#    #+#             */
-/*   Updated: 2022/05/30 14:57:11 by midfath          ###   ########.fr       */
+/*   Updated: 2022/06/02 13:34:46 by midfath          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_pip
 	int		output;
 	char	**path;
 	t_list	*cmds;
+	int		err_f;
 }			t_pip;
 
 typedef	struct  s_cmd

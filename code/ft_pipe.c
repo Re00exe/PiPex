@@ -37,16 +37,18 @@ void	*ft_pipe(t_pip	*p, char **envp)
 
 	head = p->cmds;
 	if (dup2(p->input, STDIN_FILENO) == -1)
-		return (end_pip(p, NULL, DUP_ERR));
+		p->err_f = 1;
 	close(p->input);
 	while (head)
 	{
-		if (pipe(f) == -1)
+		if (p->err_f)
+			head = head->next;
+		else if (pipe(f) == -1)
 			return (end_pip(p, NULL, DUP_ERR));
 		pid = fork();
 		if (pid == -1)
 			return (end_pip(p, NULL, DUP_ERR));
-		if (!pid)
+		else if (!pid)
 			ft_child_process(p, f, head, envp);
 		close (f[1]);
 		if (head->next && dup2(f[0],STDIN_FILENO) == -1)
@@ -54,7 +56,8 @@ void	*ft_pipe(t_pip	*p, char **envp)
 		close(f[0]);
 		head = head->next;
 	}
-	waitpid(pid, NULL, 0);
+	while (wait(NULL) != -1)
+		;
 	return (NULL);
 }
 

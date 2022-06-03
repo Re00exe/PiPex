@@ -6,7 +6,7 @@
 /*   By: midfath <midfath@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 09:18:44 by midfath           #+#    #+#             */
-/*   Updated: 2022/05/30 15:34:33 by midfath          ###   ########.fr       */
+/*   Updated: 2022/06/02 20:18:05 by midfath          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,15 @@ t_list *ft_parsing(int ac, char **av, t_pip *p)
 			return ((t_list *)end_pip(p, &cmd, CMD_FAIL));
 		inx = search_cmd(p, *cmd, &pathrack);
 		if (inx == -1)
-			return ((t_list *)end_pip(p, &cmd, CMD_NOT_FOUND));
-		ft_lstadd_back(&cmds, pip_lstnew(pathrack, cmd));
-		free(pathrack);
+		{
+			ft_putstr_fd("ERROR:command not found:\n", 2);
+			ft_lstadd_back(&cmds, pip_lstnew(pathrack, cmd));
+		}
+		else
+		{
+			ft_lstadd_back(&cmds, pip_lstnew(pathrack, cmd));
+			free(pathrack);
+		}
 		pathrack = NULL;
 	}
 	return (cmds);
@@ -48,11 +54,11 @@ int	main(int ac, char **av, char **envp)
 	p = NULL;
 	if (ac != 5)
 		return (*(int *)end_pip(p, NULL, INV_ARGS));
-	if ((access(av[1], F_OK) == -1))
-			return ((int)end_pip(p, NULL, NO_FILE));
-	if ((access (av[1], R_OK) == -1))
-			return ((int)end_pip(p, NULL, NO_PERM));
-	 if (ac == 5 && **envp)
+	// if ((access(av[1], F_OK) == -1))
+	// 		p->err_f = 1;
+	// if ((access (av[1], R_OK) == -1))
+	// 		p->err_f = 1;
+	else if (ac == 5 && **envp)
 	{
 		p = ft_pip_parma(ac, av, envp);
 		p->cmds = ft_parsing(ac ,av, p);
