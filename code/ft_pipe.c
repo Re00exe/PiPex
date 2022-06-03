@@ -25,7 +25,9 @@ void	*ft_child_process(t_pip *p, int f[2], t_list *node, char **envp)
 	close(f[1]);
 	close(p->input);
 	close(p->output);
+	write(2, "start\n", 6);
 	execve(cmd->pathtrack, cmd->cmds, envp);
+	write(2, "end\n", 4);
 	return (end_pip(p, NULL, END));
 }
 
@@ -43,7 +45,7 @@ void	*ft_pipe(t_pip	*p, char **envp)
 	{
 		if (p->err_f)
 			head = head->next;
-		else if (pipe(f) == -1)
+		else if (head->next && pipe(f) == -1)
 			return (end_pip(p, NULL, DUP_ERR));
 		pid = fork();
 		if (pid == -1)
@@ -56,6 +58,7 @@ void	*ft_pipe(t_pip	*p, char **envp)
 		close(f[0]);
 		head = head->next;
 	}
+	close(p->output);
 	while (wait(NULL) != -1)
 		;
 	return (NULL);

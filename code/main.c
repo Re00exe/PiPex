@@ -6,7 +6,7 @@
 /*   By: midfath <midfath@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 09:18:44 by midfath           #+#    #+#             */
-/*   Updated: 2022/06/02 20:18:05 by midfath          ###   ########.fr       */
+/*   Updated: 2022/06/03 11:55:58 by midfath          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_list *ft_parsing(int ac, char **av, t_pip *p)
 		inx = search_cmd(p, *cmd, &pathrack);
 		if (inx == -1)
 		{
-			ft_putstr_fd("ERROR:command not found:\n", 2);
 			ft_lstadd_back(&cmds, pip_lstnew(pathrack, cmd));
 		}
 		else

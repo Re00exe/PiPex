@@ -6,7 +6,7 @@
 /*   By: midfath <midfath@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 17:45:45 by midfath           #+#    #+#             */
-/*   Updated: 2022/06/02 20:16:25 by midfath          ###   ########.fr       */
+/*   Updated: 2022/06/03 12:19:12 by midfath          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,9 @@ int	search_cmd(t_pip *p, char *cmd, char **pathtrack)
 
 void *end_pip(t_pip *p, char ***cmd, int err)
 {
-	if (err)
-		ft_perror(err);
+	write(2, "here\n", 5);
+	if (errno && err)
+		perror("Error");
 	else if (cmd)
 		ft_matfreex(cmd);
 	else if (p)
