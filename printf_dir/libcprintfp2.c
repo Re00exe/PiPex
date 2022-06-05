@@ -6,7 +6,7 @@
 /*   By: midfath <midfath@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 17:31:40 by midfath           #+#    #+#             */
-/*   Updated: 2021/12/12 17:41:07 by midfath          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:28:54 by midfath          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_put_addhex(unsigned long hex)
 		i += ft_put_addhex(hex % 16);
 	}
 	else
-		i += write(1, &LHEX[hex], 1);
+		i += write(2, &LHEX[hex], 1);
 	return (i);
 }
 
@@ -31,7 +31,7 @@ int	ft_inhex(unsigned long hex)
 {
 	int	i;
 
-	i = write(1, "0x", 2);
+	i = write(2, "0x", 2);
 	i += ft_put_addhex(hex);
 	return (i);
 }
@@ -49,7 +49,7 @@ int	ft_put_unbr(unsigned int n)
 	else
 	{
 		n += '0';
-		i += write(1, &n, 1);
+		i += write(2, &n, 1);
 	}
 	return (i);
 }

@@ -6,7 +6,7 @@
 /*   By: midfath <midfath@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 14:18:00 by midfath           #+#    #+#             */
-/*   Updated: 2022/03/11 12:29:28 by midfath          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:29:01 by midfath          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_checkif(va_list parm, char str)
 
 	p = 0;
 	if (str == '%')
-		p = write(1, "%", 1);
+		p = write(2, "%", 1);
 	else if (str == 'c')
 		p = ft_putchar(va_arg(parm, int));
 	else if (str == 's')

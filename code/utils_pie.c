@@ -6,7 +6,7 @@
 /*   By: midfath <midfath@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/21 17:45:45 by midfath           #+#    #+#             */
-/*   Updated: 2022/06/03 12:19:12 by midfath          ###   ########.fr       */
+/*   Updated: 2022/06/05 18:58:38 by midfath          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 t_cmd	*ft_cmd(char *pathtrack, char **cmd)
 {
 	t_cmd	*new;
-	if(!cmd)
+
+	if (!cmd)
 		return (NULL);
 	new = malloc(sizeof(t_cmd));
 	if (!new)
@@ -33,11 +34,11 @@ t_cmd	*ft_cmd(char *pathtrack, char **cmd)
 t_list	*pip_lstnew(char *pathtrack, char **cmd)
 {
 	t_list	*new;
-	
+
 	new = malloc(sizeof(t_list));
 	if (!new)
 		return (NULL);
-	new->content =  ft_cmd(pathtrack, cmd);
+	new->content = ft_cmd(pathtrack, cmd);
 	if (!new->content)
 	{
 		free(new);
@@ -58,13 +59,13 @@ int	search_cmd(t_pip *p, char *cmd, char **pathtrack)
 	{
 		if (*pathtrack)
 			free(*pathtrack);
-		prt = ft_strjoin(p->path[i],  "/");
+		prt = ft_strjoin(p->path[i], "/");
 		if (!prt)
-			return (-1);
+			return ((int)end_pip(p, NULL));
 		*pathtrack = ft_strjoin(prt, cmd);
 		free(prt);
 		if (!pathtrack)
-			return (-1);
+			return ((int)end_pip(p, NULL));
 		if (access(*pathtrack, F_OK) == 0)
 			break ;
 	}
@@ -76,12 +77,9 @@ int	search_cmd(t_pip *p, char *cmd, char **pathtrack)
 	return (0);
 }
 
-void *end_pip(t_pip *p, char ***cmd, int err)
+void	*end_pip(t_pip *p, char ***cmd)
 {
-	write(2, "here\n", 5);
-	if (errno && err)
-		perror("Error");
-	else if (cmd)
+	if (cmd)
 		ft_matfreex(cmd);
 	else if (p)
 	{
@@ -98,7 +96,6 @@ void *end_pip(t_pip *p, char ***cmd, int err)
 	return (0);
 }
 
-
 t_pip	*ft_pip_parma(int ac, char **av, char **envp)
 {	
 	int		i;
@@ -111,22 +108,17 @@ t_pip	*ft_pip_parma(int ac, char **av, char **envp)
 	p = malloc(sizeof(struct s_pip));
 	p->err_f = 0;
 	if (!p)
-		return(end_pip(p, NULL, NO_MEMORY));
+		return (end_pip(p, NULL));
 	p->path = ft_split(&envp[i][5], ':');
 	if (!p->path)
-		return(end_pip(p, NULL, NO_PATH));
+		return (end_pip(p, NULL));
 	p->input = open(av[1], O_RDONLY);
-	if (p->input == -1)
-	{
-		perror("ERROR:");
-		p->err_f = 1;
-	}
 	p->output = open(av[ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0666);
+	if (access(av[ac - 1], F_OK) == -1)
+		return (end_pip(p, NULL));
+	else if (access(av[ac - 1], R_OK) == -1)
+		return (end_pip(p, NULL));
 	if (p->output == -1)
-		return(end_pip(p, NULL, NO_FILE));
-	if (access(av[ac - 1], F_OK) == -1 )
-		return(end_pip(p, NULL, NO_FILE));
-	if (access(av[ac - 1], R_OK) == -1)
-		return(end_pip(p, NULL, NO_PERM));
-	return(p);
+		return (end_pip(p, NULL));
+	return (p);
 }

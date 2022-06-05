@@ -53,6 +53,7 @@ clean :
 	@$(PRINTF) "$(PINK)Cleaning $(NAME) ... $(DEFAULT)\n"
 	@$(RM) -r $(OBJ_DIR)
 	@$(RM) -r $(OBJ_GNL_DIR)
+	@$(RM) -r $(NAME)
 	@$(PRINTF) "$(RED) Objects_files removed successfully. $(DEFAULT)\n"
 
 fclean: clean

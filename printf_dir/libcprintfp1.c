@@ -6,7 +6,7 @@
 /*   By: midfath <midfath@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 09:57:38 by midfath           #+#    #+#             */
-/*   Updated: 2021/12/12 17:40:22 by midfath          ###   ########.fr       */
+/*   Updated: 2022/06/05 17:28:26 by midfath          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_putchar(char c)
 {
-	write(1, &c, 1);
+	write(2, &c, 1);
 	return (1);
 }
 
@@ -29,7 +29,7 @@ int	ft_putstr(char *str)
 		return (i);
 	}
 	while (*str)
-		i += write(1, str++, 1);
+		i += write(2, str++, 1);
 	return (i);
 }
 
@@ -41,7 +41,7 @@ int	ft_putnbr(int nb)
 	i = 0;
 	if (nb < 0)
 	{
-		i += write(1, "-", 1);
+		i += write(2, "-", 1);
 		nb *= -1;
 	}
 	n2 = nb;
@@ -53,7 +53,7 @@ int	ft_putnbr(int nb)
 	else
 	{
 		n2 += '0';
-		write(1, &n2, 1);
+		write(2, &n2, 1);
 		i++;
 	}
 	return (i);
@@ -70,7 +70,7 @@ int	ft_putlowhexa(unsigned int hex)
 		i += ft_putlowhexa(hex % 16);
 	}
 	else
-		i += write(1, &LHEX[hex], 1);
+		i += write(2, &LHEX[hex], 1);
 	return (i);
 }
 
@@ -85,6 +85,6 @@ int	ft_puthexa(unsigned int hex)
 		i += ft_puthexa(hex % 16);
 	}
 	else
-		i += write(1, &UHEX[hex], 1);
+		i += write(2, &UHEX[hex], 1);
 	return (i);
 }
