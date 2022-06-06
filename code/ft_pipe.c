@@ -6,7 +6,7 @@
 /*   By: midfath <midfath@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/28 10:14:47 by midfath           #+#    #+#             */
-/*   Updated: 2022/06/05 18:52:25 by midfath          ###   ########.fr       */
+/*   Updated: 2022/06/06 07:38:47 by midfath          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,8 @@ void	*ft_child_process(t_pip *p, int f[2], t_list *node, char **envp)
 	close(f[1]);
 	if (p->err_f == 0)
 	{
-		execve(cmd->pathtrack, cmd->cmds, envp);
-		dup2(2, 1);
-		ft_printf("pipex: %s: %s\n", strerror(errno), cmd->cmds[0]);
+		if (execve(cmd->pathtrack, cmd->cmds, envp) == -1)
+			ft_printf("pipex: %s: %s\n", strerror(errno), cmd->cmds[0]);
 	}
 	return (end_pip(p, NULL));
 }
